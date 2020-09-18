@@ -7,12 +7,13 @@ import trads from './translations';
 
 export default strapi => {
   const pluginDescription = pluginPkg.strapi.description || pluginPkg.description;
-
+  const icon = pluginPkg.strapi.icon;
+  const name = pluginPkg.strapi.name;
   const plugin = {
     blockerComponent: null,
     blockerComponentProps: {},
     description: pluginDescription,
-    icon: pluginPkg.strapi.icon,
+    icon,
     id: pluginId,
     initializer: Initializer,
     injectedComponents: [],
@@ -23,9 +24,22 @@ export default strapi => {
     leftMenuLinks: [],
     leftMenuSections: [],
     mainComponent: App,
-    name: pluginPkg.strapi.name,
+    name,
     preventComponentRendering: false,
     trads,
+    menu: {
+      pluginsSectionLinks: [
+        {
+          destination: `/plugins/${pluginId}`, // Endpoint of the link
+          icon,
+          name,
+          label: {
+            id: `${pluginId}.plugin.name`, // Refers to a i18n
+            defaultMessage: 'Content import export',
+          },
+        },
+      ],
+    }
   };
 
   return strapi.registerPlugin(plugin);

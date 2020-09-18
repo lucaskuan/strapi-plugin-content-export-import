@@ -1,5 +1,6 @@
-const importItemByContentType = (id, item) => {
-  return strapi.query(id).create(item);
+const importItemByContentType = async (id, item) => {
+  const savedContent = await strapi.query(id).create(item);
+  return
 };
 
 const importSingleType = async (uid, item) => {

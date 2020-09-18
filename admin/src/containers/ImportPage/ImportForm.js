@@ -37,11 +37,10 @@ const ImportForm = ({models}) => {
       return;
     }
     setLoading(true);
-    readLocalFile(sourceFile, JSON.parse).then(setSource)
+    readLocalFile(sourceFile).then(setSource)
     .catch((error) => {
       strapi.notification.error(
         "Something wrong when uploading the file, please check the file and try again.");
-      console.error(error)
     }).finally(() => {
       setLoading(false);
     })
@@ -52,6 +51,7 @@ const ImportForm = ({models}) => {
       strapi.notification.error("Please select a target content type!");
       return;
     }
+    console.log(source);
     if (!source) {
       strapi.notification.error("Please choose a source file first.");
       return;
@@ -77,14 +77,14 @@ const ImportForm = ({models}) => {
       <FileField>
         <input id="source"
                name="source"
-               accept={".json"}
+               accept={".json, .csv"}
                type="file"
                onChange={onSourceFileChange}
         />
       </FileField>
     </FieldRow>
     {source
-      ? (<JsonDataDisplay data={source}/>)
+      ? (<JsonDataDisplay data={source} />)
       : (<FormAction>
         <Button disabled={loading}
                 onClick={upload}
